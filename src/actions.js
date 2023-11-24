@@ -5,6 +5,7 @@ export const NOT_SIL = "NOT_SIL"
 
 export function notEkle(not) {
   // ...
+  return { type: NOT_EKLE, payload: not };
 }
 
 export function notSil(notId) {
@@ -17,9 +18,12 @@ export const notEkleAPI = (yeniNot) => dispatch => {
     .then((res) => {
       if (res.status === 200) {
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notEkle ile dispatch edin
+        dispatch(notEkle(res.data.json));
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      dispatch((error.message));
+  })
 }
 
 export const notSilAPI = (id) => dispatch => {
