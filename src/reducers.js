@@ -1,3 +1,4 @@
+import { NOT_EKLE, NOT_SIL} from "./actions";
 const s10chLocalStorageKey = "s10ch";
 
 const baslangicDegerleri = {
@@ -8,6 +9,8 @@ const baslangicDegerleri = {
       body: "Bugün hava çok güzel!|En iyi arkadaşımın en iyi arkadaşı olduğumu öğrendim :)|Kedim iyileşti!",
     },
   ],
+  busy: false,
+  error: null,
 };
 
 function localStorageStateYaz(key, data) {
@@ -25,5 +28,18 @@ function baslangicNotlariniGetir(key) {
     return localStorageStateOku(key);
   } else {
     return baslangicDegerleri
+  }
+}
+export function reducerGratitudeJournal(state=baslangicDegerleri, action) {
+
+  switch (action.type) {
+      case NOT_EKLE:
+          return {...state, busy: false, notlar: [ action.payload, ...state.notlar ]}
+
+      case NOT_SIL:
+          return state;
+
+      default:
+          return state;
   }
 }
