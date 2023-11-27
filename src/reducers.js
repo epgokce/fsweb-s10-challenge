@@ -1,4 +1,4 @@
-import { NOT_EKLE, NOT_SIL} from "./actions";
+import { NOT_EKLE, NOT_SIL, GOT_ORDER_REQUIRING_API, GOT_ERROR} from "./actions";
 const s10chLocalStorageKey = "s10ch";
 
 const baslangicDegerleri = {
@@ -37,7 +37,12 @@ export function reducerGratitudeJournal(state=baslangicDegerleri, action) {
           return {...state, busy: false, notlar: [ action.payload, ...state.notlar ]}
 
       case NOT_SIL:
-          return state;
+        const idDeletedNote = action.payload;
+          return { ...state, busy: false, notlar: state.notlar.filter( note => note.id !== idDeletedNote ) };
+          case GOT_ORDER_REQUIRING_API:
+            return {...state, busy: true, error: null};
+            case GOT_ERROR: 
+            return {...state, busy: false, error: action.payload};
 
       default:
           return state;
